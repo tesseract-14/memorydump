@@ -1,0 +1,24 @@
+{
+  "parent": "memorydmp:get_skull",
+  "display": {
+    "title": "Third Eye Open",
+    "description": "Use the eye of rah for any reason",
+    "icon": {
+      "item": "memorydmp:eye"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "use_eye": {
+      "trigger": "minecraft:used_eye",
+      "conditions": {
+        "item": {
+          "items": ["memorydmp:eye"]
+        }
+      }
+    }
+  }
+}

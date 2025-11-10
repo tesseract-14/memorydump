@@ -1,0 +1,192 @@
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:enchanted_book"
+    },
+    "title": "Chaos block Master",
+    "description": "Experience every possible effect from the Chaos Block. (or... just get all of the effects in any other way, im too lazy)",
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "minecraft:textures/block/black_concrete_powder.png"
+  },
+  "parent": "memorydmp:get_skull",
+  "criteria": {
+    "nausea": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:nausea": {}
+        }
+      }
+    },
+    "slowness": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:slowness": {}
+        }
+      }
+    },
+    "unluck": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:unluck": {}
+        }
+      }
+    },
+    "blindness": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:blindness": {}
+        }
+      }
+    },
+    "weakness": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:weakness": {}
+        }
+      }
+    },
+    "mining_fatigue": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:mining_fatigue": {}
+        }
+      }
+    },
+    "poison": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:poison": {}
+        }
+      }
+    },
+    "wither": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:wither": {}
+        }
+      }
+    },
+    "hunger": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:hunger": {}
+        }
+      }
+    },
+    "instant_damage": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:instant_damage": {}
+        }
+      }
+    },
+    "levitation": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:levitation": {}
+        }
+      }
+    },
+    "glowing": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:glowing": {}
+        }
+      }
+    },
+    "jump_boost": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:jump_boost": {}
+        }
+      }
+    },
+    "bad_omen": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:bad_omen": {}
+        }
+      }
+    },
+    "strength": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:strength": {}
+        }
+      }
+    },
+    "health_boost": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:health_boost": {}
+        }
+      }
+    },
+    "absorption": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:absorption": {}
+        }
+      }
+    },
+    "luck": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:luck": {}
+        }
+      }
+    },
+    "fire_resistance": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:fire_resistance": {}
+        }
+      }
+    },
+    "night_vision": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:night_vision": {}
+        }
+      }
+    },
+    "saturation": {
+      "trigger": "minecraft:effects_changed",
+      "conditions": {
+        "effects": {
+          "minecraft:saturation": {}
+        }
+      }
+    }
+  },
+  "requirements": [
+    ["nausea", "slowness", "unluck", "blindness", "weakness", "mining_fatigue", "poison", "wither", "hunger", "instant_damage", "levitation", "glowing", "jump_boost", "bad_omen", "strength", "health_boost", "absorption", "luck", "fire_resistance", "night_vision", "saturation"]
+  ],
+  "rewards": {
+    "experience": 500,
+    "function": "memorydmp:reward/chaos_master"
+  }
+}
