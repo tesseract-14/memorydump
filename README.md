@@ -11,6 +11,7 @@ A Minecraft Fabric mod that adds random things that come to my mind!1!11
 - **Analyzer Item** - Scan yourself by right-clicking - entities by left clicking
 - **Memory leak Item** - gradually loads garbage data into memory. *WARNING, THIS WILL CRASH YOUR GAME EVENTUALLY.*
 - **Schrodinger Item** - I don't even know what this item does. find out urself.
+- **RNG Block** - Drop an item on it for it to dupe (low chance), or discard, or turn into flesh.
 
 ## How to Use
 1. Install Fabric for Minecraft 1.18.2
@@ -26,6 +27,7 @@ A Minecraft Fabric mod that adds random things that come to my mind!1!11
 - **Block of effects**: iron ingots surrounding a buffer (so many surrounding recipes)
 - **Memory leak Item**: redstone blocks surrounding a buffer
 - **Schrodinger Item**: uncraftable for now.
+- **RNG block**: Uncraftable for now.
 
 ## Requirements
 - Minecraft 1.18.2
