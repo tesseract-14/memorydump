@@ -8,7 +8,9 @@ A Minecraft Fabric mod that adds random things that come to my mind!1!11
 - **Buffer Item** - Grants strength with no catch (trust me)
 - **Chaos Block** - Right-click for random potion effects.
 - **Turner Block** - Transforms items dropped on it
-- **Analyzer Item** - Scan yourself by right-clicking - entities by left clicking (only shows entity HP for now)
+- **Analyzer Item** - Scan yourself by right-clicking - entities by left clicking
+- **Memory leak Item** - gradually loads garbage data into memory. *WARNING, THIS WILL CRASH YOUR GAME EVENTUALLY.*
+- **Schrodinger Item** - I don't even know what this item does. find out urself.
 
 ## How to Use
 1. Install Fabric for Minecraft 1.18.2
@@ -22,6 +24,8 @@ A Minecraft Fabric mod that adds random things that come to my mind!1!11
 - **Buffer**: 8x iron ingots surrounding a redstone
 - **Turner block**: 8 planks surrounding an iron ingot
 - **Block of effects**: iron ingots surrounding a buffer (so many surrounding recipes)
+- **Memory leak Item**: redstone blocks surrounding a buffer
+- **Schrodinger Item**: uncraftable for now.
 
 ## Requirements
 - Minecraft 1.18.2
