@@ -28,7 +28,7 @@ import static net.fabricmc.memorydmp.MemoryDmpMod.txt;
 
 public class AnalyzerItem extends Item {
 
-    boolean analyze = true;
+    private boolean analyze = true;
     @Override
     // @Environment(EnvType.CLIENT)
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
@@ -45,7 +45,7 @@ public class AnalyzerItem extends Item {
         ItemStack itemStack = user.getStackInHand(hand);
         
         if (world.isClient()) {
-            return TypedActionResult.fail(itemStack);
+            return TypedActionResult.pass(itemStack);
         }
         if (analyze) {
             user.sendMessage(txt("Human (prolly) detected."), false);
@@ -53,6 +53,9 @@ public class AnalyzerItem extends Item {
             user.sendMessage(txt("HP: §e" + user.getHealth()), false);
             user.sendMessage(txt("max health: §e" + user.getMaxHealth()), false);
             user.sendMessage(txt("Velocity data: §e" + user.getVelocity()), false);
+            user.sendMessage(txt("main hand contains: " + user.getMainHandStack().getItem()), false);
+            user.sendMessage(txt("Pitch: §b" + user.getPitch()), false);
+            user.sendMessage(txt("Yaw: §b" + user.getYaw()), false);
             
             analyze = false;
         }else{
@@ -100,6 +103,15 @@ public class AnalyzerItem extends Item {
                 world.playSound(null, player.getBlockPos(), 
                     net.minecraft.sound.SoundEvents.BLOCK_NOTE_BLOCK_BELL, 
                     net.minecraft.sound.SoundCategory.PLAYERS, 1.0F, 1.5F);
+
+                player.sendMessage(txt("Human (prolly) detected."), false);
+                player.sendMessage(txt("Username is: §e" + target.getEntityName()), false);
+                player.sendMessage(txt("HP: §e" + target.getHealth()), false);
+                player.sendMessage(txt("max health: §e" + target.getMaxHealth()), false);
+                player.sendMessage(txt("Velocity data: §e" + target.getVelocity()), false);
+                if (!target.getMainHandStack().isEmpty()) player.sendMessage(txt("main hand contains: " + target.getMainHandStack().getItem()), false);
+                player.sendMessage(txt("Pitch: §b" + target.getPitch()), false);
+                player.sendMessage(txt("Yaw: §b" + target.getYaw()), false);
                 
                 MemoryDmpMod.LOGGER.info("Analyzer used on: " + target.getType() + " by " + player.getEntityName());
             }

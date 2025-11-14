@@ -82,7 +82,7 @@ public class BufferItem extends Item {
         return true;
     }
 
-    // NEW: Handle offhand attacks by listening to player attacks
+    // offhand stuhf
     public static void onPlayerAttack(PlayerEntity player, LivingEntity target) {
         World world = player.getWorld();
         ItemStack offhandStack = player.getOffHandStack();

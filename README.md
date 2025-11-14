@@ -30,5 +30,4 @@ A Minecraft Fabric mod that adds random things that come to my mind!1!11
 - That's it
 
 ## Downloads
-- [GitHub Releases](https://github.com/tesseract-14/memorydump/releases)
-- Modrinth link coming in a few months...
+- [GitHub Releases](https://github.com/yourname/memorydmp-mod/releases)

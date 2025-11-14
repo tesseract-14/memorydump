@@ -171,7 +171,7 @@ public class ChaosBlock extends Block {
                         MemoryDmpMod.GETOUT, 
                         SoundCategory.PLAYERS, 
                         1.0F, 
-                        (float)Math.random() * 0.4F
+                        1.0F
                     );
                     
                     lastLaunchTime.put(player, currentTime);

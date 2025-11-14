@@ -5,6 +5,9 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 
+import net.fabricmc.memorydmp.blocks.RngBlock;
+import net.fabricmc.memorydmp.items.MemoryLeakItem;
+import net.fabricmc.memorydmp.items.SchrodingerItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -26,10 +29,6 @@ import net.minecraft.world.World;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.entity.damage.DamageSource;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.SpawnGroup;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.minecraft.util.ActionResult;
@@ -54,10 +53,15 @@ import net.fabricmc.memorydmp.blocks.TurnerBlock;
 import net.fabricmc.memorydmp.items.BufferItem;
 import net.fabricmc.memorydmp.items.AnalyzerItem;
 
+import static net.fabricmc.memorydmp.MemoryDmpEvents.registerEvents;
+
 public class MemoryDmpMod implements ModInitializer {
     // ================= HELPERS ====================
     public static Text txt(String s) {
         return new LiteralText(s);
+    }
+    public static void log(String s){
+        LOGGER.info(s);
     }
 
     public static final String MOD_ID = "memorydmp";
@@ -118,61 +122,71 @@ public class MemoryDmpMod implements ModInitializer {
         public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
             ItemStack itemStack = user.getStackInHand(hand);
 
-            if (!world.isClient()) {
 
+            if (world.isClient()) {
                 if (user.getItemCooldownManager().isCoolingDown(this)) {
                     int ms = (int)(Math.random() * 9001) + 1000;
                     double inTicks = Math.floor(ms / 20);
                     user.sendMessage(txt("§cI'm running " + ms + "ms (" + inTicks + " ticks) behind! §8Is the server overloaded?"), false);
                     return TypedActionResult.fail(itemStack);
                 }
-
-                if (Math.random() < 0.07){
-                    user.sendMessage(txt("§9Uh oh! §csomething §ounexpected§r§c happened..."), true);
-                    user.playSound(SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1.0F, 0.8F + (float)Math.random() * 0.4F);
-
-                    user.damage(DamageSource.MAGIC, 3.5F);
-                    itemStack.decrement(1);
-                    user.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 160, 0));
-                    user.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 2));
-
-                    LOGGER.info("7% Failure enabled...");
-                    return TypedActionResult.success(itemStack);
-                }
-
-                // Teleport player randomly
-                double newX = user.getX() + (Math.random() * 100 - 50);
-                double newZ = user.getZ() + (Math.random() * 100 - 50);
-                double newY = user.getY() + (Math.random() * 10 - 5);
-
-                user.teleport(newX, newY, newZ);
-                user.sendMessage(txt("§9You have been tp-ed!!!1!1"), false);
-
-                // Set cooldown
-                if (!user.isCreative()) {user.getItemCooldownManager().set(this, 250);}
-
-                // Apply random effect
-                StatusEffectInstance[] randomEffects = {
-                        new StatusEffectInstance(StatusEffects.NAUSEA, 60, 0),
-                        new StatusEffectInstance(StatusEffects.GLOWING, 100, 0),
-                        new StatusEffectInstance(StatusEffects.LEVITATION, 20, 0),
-                        new StatusEffectInstance(StatusEffects.SLOWNESS, 40, 2),
-                        new StatusEffectInstance(StatusEffects.JUMP_BOOST, 60, 5),
-                        new StatusEffectInstance(StatusEffects.INVISIBILITY, 100, 0),
-                        new StatusEffectInstance(StatusEffects.BLINDNESS, 30, 0)
-                };
-                StatusEffectInstance randomEffect = randomEffects[(int) (Math.random() * randomEffects.length)];
-                user.addStatusEffect(randomEffect);
-
-                user.sendMessage(txt("§7You feel...§r §c§oweird§r"), true);
-                user.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 0.8F + (float)Math.random() * 0.4F);
-
-                if (!user.isCreative()) {
-                    itemStack.decrement(1);
-                }
-
-                LOGGER.info("Eye used by: " + user.getEntityName() + " at X:" + newX + " Y:" + newY + " Z:" + newZ);
+                return TypedActionResult.success(itemStack);
             }
+
+            // SERVER-SIDE LOGIC
+            if (user.getItemCooldownManager().isCoolingDown(this)) {
+                // This should rarely happen due to client-side check, but just in case
+                MemoryDmpMod.LOGGER.info("Cooldown active on server side");
+                return TypedActionResult.fail(itemStack);
+            }
+
+            if (Math.random() < 0.07){
+                user.sendMessage(txt("§9Uh oh! §csomething §ounexpected§r§c happened..."), true);
+                user.playSound(SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.PLAYERS, 1.0F, 0.8F + (float)Math.random() * 0.4F);
+
+                user.damage(DamageSource.MAGIC, 3.5F);
+                itemStack.decrement(1);
+                user.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 160, 0));
+                user.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 120, 2));
+
+                LOGGER.info("7% Failure enabled...");
+                return TypedActionResult.success(itemStack);
+            }
+
+            // Teleport player randomly
+            double newX = user.getX() + (Math.random() * 100 - 50);
+            double newZ = user.getZ() + (Math.random() * 100 - 50);
+            double newY = user.getY() + (Math.random() * 10 - 5);
+
+            user.teleport(newX, newY, newZ);
+            user.sendMessage(txt("§9You have been tp-ed!!!1!1"), false);
+
+            // Set cooldown
+            if (!user.isCreative()) {
+                user.getItemCooldownManager().set(this, 250);
+            }
+
+            // Apply random effect
+            StatusEffectInstance[] randomEffects = {
+                    new StatusEffectInstance(StatusEffects.NAUSEA, 60, 0),
+                    new StatusEffectInstance(StatusEffects.GLOWING, 100, 0),
+                    new StatusEffectInstance(StatusEffects.LEVITATION, 20, 0),
+                    new StatusEffectInstance(StatusEffects.SLOWNESS, 40, 2),
+                    new StatusEffectInstance(StatusEffects.JUMP_BOOST, 60, 5),
+                    new StatusEffectInstance(StatusEffects.INVISIBILITY, 100, 0),
+                    new StatusEffectInstance(StatusEffects.BLINDNESS, 30, 0)
+            };
+            StatusEffectInstance randomEffect = randomEffects[(int) (Math.random() * randomEffects.length)];
+            user.addStatusEffect(randomEffect);
+
+            user.sendMessage(txt("§7You feel...§r §c§oweird§r"), true);
+            user.playSound(SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1.0F, 0.8F + (float)Math.random() * 0.4F);
+
+            if (!user.isCreative()) {
+                itemStack.decrement(1);
+            }
+
+            LOGGER.info("Eye used by: " + user.getEntityName() + " at X:" + newX + " Y:" + newY + " Z:" + newZ);
 
             return TypedActionResult.success(itemStack);
         }
@@ -232,9 +246,11 @@ public class MemoryDmpMod implements ModInitializer {
     //     }
     // };
 
-    // ==================================== Buffer item ==================================
+    // ==================================== items ==================================
     public static final Item BUFFER = new BufferItem(new Item.Settings().maxCount(1));
     public static final Item ANALYZER = new AnalyzerItem(new Item.Settings().maxCount(1));
+    public static final Item SCHRODINGER = new SchrodingerItem(new Item.Settings().maxCount(64));
+    public static final Item MEMORYLEAK = new MemoryLeakItem(new Item.Settings().maxCount(1));
     // ====================================== Random turner block =========================
     public static final Block TURNER_BLOCK = new TurnerBlock(Block.Settings.of(Material.METAL)
         .strength(3.0f)
@@ -264,6 +280,20 @@ public class MemoryDmpMod implements ModInitializer {
             // tooltip.add(new LiteralText("§dPure chaos in block form!"));
         }
     };
+    // =================== RNG BLOCK =======================================================
+    public static final Block RNG_BLOCK = new RngBlock(Block.Settings.of(Material.METAL)
+            .strength(2.0f)
+            .sounds(BlockSoundGroup.ANVIL)
+            // .requiresTool()
+    );
+    public static final Item RNG_BLOCK_ITEM = new BlockItem(RNG_BLOCK, new Item.Settings()) {
+        @Override
+        public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+            tooltip.add(new LiteralText("§7Drop items on it for ?"));
+        }
+    };
+
+    //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // ================== CREATIVE TAB ====================
     // Just declare the variable here, we'll initialize it in onInitialize
     public static ItemGroup MEMGROUP;
@@ -282,8 +312,11 @@ public class MemoryDmpMod implements ModInitializer {
                 stacks.add(new ItemStack(BUFFER));
                 stacks.add(new ItemStack(TURNER_BLOCK_ITEM));
                 stacks.add(new ItemStack(CHOAS_BLOCK_ITEM));
+                stacks.add(new ItemStack(RNG_BLOCK_ITEM));
 
                 stacks.add(new ItemStack(ANALYZER));
+                stacks.add(new ItemStack(SCHRODINGER));
+//                stacks.add(new ItemStack(MEMORYLEAK));
             })
             .build();
         
@@ -293,15 +326,21 @@ public class MemoryDmpMod implements ModInitializer {
         // Registry.register(Registry.ITEM, new Identifier(MOD_ID, "ender_earl"), ENDER_EARL);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "buffer"), BUFFER);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "analyzer"), ANALYZER);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "schrodinger"), SCHRODINGER);
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "memoryleak"), MEMORYLEAK);
 
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "turner_block"), TURNER_BLOCK);
         Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "chaos_block"), CHAOS_BLOCK);
-        
+        Registry.register(Registry.BLOCK, new Identifier(MOD_ID, "rng_block"), RNG_BLOCK);
+
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "turner_block"), TURNER_BLOCK_ITEM);
         Registry.register(Registry.ITEM, new Identifier(MOD_ID, "chaos_block"), CHOAS_BLOCK_ITEM);
-        
+        Registry.register(Registry.ITEM, new Identifier(MOD_ID, "rng_block"), RNG_BLOCK_ITEM);
+
         registerAttackEvent();
-        LOGGER.info("Memory was dumped successfuly.");
+        registerEvents();
+
+        LOGGER.info("Memory was dumped successfully.");
 
 
         
