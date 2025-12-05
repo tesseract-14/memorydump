@@ -1,7 +1,0 @@
-# Give player a special reward
-give @s memorydmp:buffer{Enchantments:[{id:"minecraft:unbreaking",lvl:3}]} 1
-give @s minecraft:nether_star 1
-give @s minecraft:netherite_sword 1
-give @s minecraft:diamond 127
-tellraw @s {"text":"You've mastered chaos! The universe bends to your will. (not really)","color":"light_purple","bold":true}
-playsound entity.elder_guardian.curse player @s ~ ~ ~ 1 1
