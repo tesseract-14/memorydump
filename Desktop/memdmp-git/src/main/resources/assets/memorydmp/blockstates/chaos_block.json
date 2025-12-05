@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "memorydmp:block/chaos_block" }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {"item": "minecraft:seed"},
+    {"item": "minecraft:gunpowder"},
+    {"item": "minecraft:redstone"},
+    {"item": "minecraft:dirt"}
+  ],
+  "result": {
+    "item": "memorydmp:rng_block",
+    "count": 1
+  }
+}

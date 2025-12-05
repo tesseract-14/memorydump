@@ -1,0 +1,70 @@
+package net.fabricmc.memorydmp;
+
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.OverlayTexture;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.item.ItemRenderer;
+import net.minecraft.client.render.model.BakedModel;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+
+// ADD THIS IMPORT:
+import net.fabricmc.memorydmp.entity.TeleportOrbEntity;
+
+public class MemoryDmpModClient implements ClientModInitializer {
+
+    public static final Identifier PINK_ENDER_PEARL_TEXTURE = new Identifier("memorydmp", "textures/item/ender_earl.png");
+
+    @Override
+    public void onInitializeClient() {
+        // Register the custom renderer for your TeleportOrbEntity
+        EntityRendererRegistry.register(MemoryDmpMod.TELEPORT_ORB, TeleportOrbRenderer::new);
+    }
+
+    // Custom renderer class for TeleportOrbEntity
+    public static class TeleportOrbRenderer extends EntityRenderer<TeleportOrbEntity> {
+
+        private final ItemRenderer itemRenderer;
+
+        public TeleportOrbRenderer(EntityRendererFactory.Context ctx) {
+            super(ctx);
+            this.itemRenderer = ctx.getItemRenderer();
+        }
+
+        @Override
+        public void render(TeleportOrbEntity entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
+            ItemStack stack = MemoryDmpMod.ENDER_EARL.getDefaultStack();
+            
+            BakedModel model = this.itemRenderer.getModel(stack, entity.getWorld(), null, 0);
+
+            matrices.push();
+            
+            matrices.scale(1.0F, 1.0F, 1.0F);
+            matrices.translate(0.0F, 0.1F, 0.0F);
+
+            this.itemRenderer.renderItem(
+                stack,
+                net.minecraft.client.render.model.json.ModelTransformation.Mode.GROUND,
+                false,
+                matrices,
+                vertexConsumers,
+                light,
+                OverlayTexture.DEFAULT_UV,
+                model
+            );
+
+            matrices.pop();
+            super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
+        }
+
+        @Override
+        public Identifier getTexture(TeleportOrbEntity entity) {
+            return PINK_ENDER_PEARL_TEXTURE;
+        }
+    }
+}
