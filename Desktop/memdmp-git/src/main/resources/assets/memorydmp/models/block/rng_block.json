@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "memorydmp:block/rng_block"
-  }
-}
