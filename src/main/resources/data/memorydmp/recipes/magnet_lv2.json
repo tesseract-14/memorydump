@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "IRI",
+        "IMI",
+        "III"
+    ],
+    "key": {
+        "I": {
+            "item": "minecraft:iron_ingot"
+        },
+        "R": {
+            "item": "minecraft:redstone_block"
+        },
+        "M": {
+            "item": "memorydmp:magnet_lv1"
+        }
+    },
+    "result": {
+        "item": "memorydmp:magnet_lv2",
+        "count": 1
+    }
+}

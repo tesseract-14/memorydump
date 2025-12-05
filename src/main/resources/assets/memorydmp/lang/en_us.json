@@ -1,0 +1,27 @@
+{
+  "item.memorydmp.skull": "Skull [skull emoji]",
+  "item.memorydmp.eye": "Eye of rah",
+  "item.memorydmp.ender_earl": "Ender Earl",
+  "item.memorydmp.buffer": "Buffer",
+  "item.memorydmp.analyzer": "Player analyzer",
+  "item.memorydmp.schrodinger": "Schrödinger",
+  "item.memorydmp.memoryleak": "Memory Leak",
+  "item.memorydmp.entity_rider": "Entity Rider",
+  "item.memorydmp.blockpoint": "Block Pointer",
+  "item.memorydmp.blank": "[REDACTED]",
+  "item.memorydmp.weather_ctrl": "Weather Controller",
+
+  "item.memorydmp.magnet_lv1": "Magnet Lv. 1",
+  "item.memorydmp.magnet_lv2": "Magnet Lv. 2",
+  "item.memorydmp.magnet_lv3": "Magnet Lv. 3",
+
+  "item.memorydmp.stabshot": "§oStab Shot",
+
+  "block.memorydmp.turner_block": "Turner",
+  "block.memorydmp.chaos_block": "Block of effects",
+  "block.memorydmp.rng_block": "Block of gambling",
+
+  "itemGroup.memorydmp.rand": "§5rand-items §k6769",
+
+  "subtitle.memorydmp.get_out": "GET OUT"
+}

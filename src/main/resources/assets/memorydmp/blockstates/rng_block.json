@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "memorydmp:block/rng_block" }
+  }
+}
